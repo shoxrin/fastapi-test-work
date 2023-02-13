@@ -12,5 +12,4 @@ async def websocket_endpoint(websocket: WebSocket):
         data = await websocket.receive_json()
         data['id'] = number
         number += 1
-        print(data)
         await websocket.send_json(data)
