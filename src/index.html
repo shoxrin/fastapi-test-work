@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test</title>
+    </head>
+    <body>
+        <h1>Форма</h1>
+        <form action="" onsubmit="sendForm(event)">
+            <h3>Имя</h3>
+            <input type="text" id="first_name"/>
+            <h3>Фамилия</h3>
+            <input type="text" id="last_name"/>
+            <h3>Возраст</h3>
+            <input type="text" id="age"/><br><br>  
+            <button>Send</button>
+        </form>
+        <ul id='messages'>
+        </ul>
+        <script>
+            var ws = new WebSocket("ws://localhost:8000/ws");
+            ws.onmessage = function(event) {
+                var messages = document.getElementById('messages');
+                var message = document.createElement('li');
+                data = JSON.parse(event.data)
+                var content = document.createTextNode(data["first_name"] + " " + data["last_name"] + " " + data["age"]);
+                message.appendChild(content);
+                messages.appendChild(message);
+            };
+            function sendForm(event) {
+                var first_name = document.getElementById("first_name").value
+                var last_name = document.getElementById("last_name").value
+                var age = document.getElementById("age").value
+                console.log(age);
+                ws.send(JSON.stringify({
+                    first_name: first_name,
+                    last_name: last_name,
+                    age: age
+                }));
+                count += 1;
+                //document.getElementById("first_name").value = "";
+                //document.getElementById("last_name").value = "";
+                //document.getElementById("age").value = "";
+                event.preventDefault();
+            };
+        </script>
+    </body>
+</html>
