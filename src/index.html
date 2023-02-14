@@ -6,12 +6,8 @@
     <body>
         <h1>Форма</h1>
         <form action="" onsubmit="sendForm(event)">
-            <h3>Имя</h3>
-            <input type="text" id="first_name"/>
-            <h3>Фамилия</h3>
-            <input type="text" id="last_name"/>
-            <h3>Возраст</h3>
-            <input type="text" id="age"/><br><br>  
+            <h3>Введите сообщение</h3>
+            <textarea id="message" cols="30" rows="10"></textarea><br><br>
             <button>Send</button>
         </form>
         <ul id='messages'>
@@ -22,22 +18,16 @@
                 var messages = document.getElementById('messages');
                 var message = document.createElement('li');
                 data = JSON.parse(event.data)
-                var content = document.createTextNode(data['id'] + " " + data["first_name"] + " " + data["last_name"] + " " + data["age"]);
+                var content = document.createTextNode(data['id'] + " " + data["message"]);
                 message.appendChild(content);
                 messages.appendChild(message);
             };
             function sendForm(event) {
-                var first_name = document.getElementById("first_name").value
-                var last_name = document.getElementById("last_name").value
-                var age = document.getElementById("age").value
+                var message = document.getElementById("message").value
                 ws.send(JSON.stringify({
-                    first_name: first_name,
-                    last_name: last_name,
-                    age: age
+                    message: message
                 }));
-                document.getElementById("first_name").value = "";
-                document.getElementById("last_name").value = "";
-                document.getElementById("age").value = "";
+                document.getElementById("message").value = "";
                 event.preventDefault();
             };
         </script>
